@@ -1,0 +1,39 @@
+
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Meetup cloudformation example",
+    "Metadata": {
+
+    },
+    "Parameters": { 
+
+    },
+    "Mappings": {
+      
+    },
+    "Conditions": {
+
+    },
+
+    "Resources": {
+      "PublicCfnSubnet": {
+        "Type": "AWS::EC2::Subnet",
+        "Properties": {
+          "AvailabilityZone": "ap-southeast-2a",
+          "VpcId": { "Fn::ImportValue" : "TodayVpcId" } ,
+          "CidrBlock": "10.4.10.0/24",
+          "Tags": [ { "Key": "Name", "Value": "cfn-public-subnet-today" } ]
+        }
+      }
+    },
+
+    "Outputs": {
+      "TodaySubnetId" : {
+        "Description" : "The Subnet ID",
+        "Value" : { "Ref": "PublicCfnSubnet" },
+        "Export" : {
+          "Name" : "TodaySubnetId"
+        }
+      }      
+    }    
+}

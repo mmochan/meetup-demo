@@ -1,0 +1,25 @@
+---
+
+- name: Create VPC with IGW if Environment is Shared
+  ec2_vpc:
+    region:   "{{ region }}"
+    profile:  "{{ aws_account_name }}"
+    cidr_block: 10.5.0.0/16
+    resource_tags:
+      Name: ansible-vpc
+    internet_gateway: true
+  register: vpc
+
+- name: set a local fact for the vpc id
+  set_fact:
+    vpc_id: "{{vpc.vpc_id}}"
+    igw_id: "{{vpc.igw_id}}"
+
+- name: tag the internet gateway
+  ec2_tag:
+    region:   "{{ region }}"
+    profile:  "{{ aws_account_name }}"
+    resource: "{{igw_id}}"
+    state: present
+    tags:
+      Name: ansible-igw

@@ -1,0 +1,60 @@
+
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Meetup cloudformation example",
+    "Metadata": {
+
+    },
+    "Parameters": { 
+      
+    },
+    "Mappings": {
+      
+    },
+    "Conditions": {
+
+    },
+
+    "Resources": {
+        "CfnVpc": {
+          "Type": "AWS::EC2::VPC",
+          "Properties": { 
+            "CidrBlock": "10.4.0.0/16" ,
+            "Tags": [ { "Key": "Name", "Value": "cfn-vpc-today" } ]
+          }
+        },
+        "MeetUpInternetGateway": {
+          "DependsOn" : "CfnVpc",
+          "Type": "AWS::EC2::InternetGateway",
+          "Properties": {
+            "Tags": [ { "Key": "Name", "Value": "cfn-igw-today" } ]
+          }
+        },
+
+        "MeetupAttachGateway": {
+          "DependsOn" : "MeetUpInternetGateway",
+          "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+            "VpcId": { "Ref": "CfnVpc" },
+            "InternetGatewayId": { "Ref": "MeetUpInternetGateway" }
+          }
+        }
+    },
+
+    "Outputs": {
+      "TodayVpcId" : {
+        "Description" : "The VPC ID",
+        "Value" : { "Ref": "CfnVpc" },
+        "Export" : {
+          "Name" : "TodayVpcId"
+        }
+      },      
+      "TodayIgwId" : {
+        "Description" : "The IGW ID",
+        "Value" : { "Ref": "MeetUpInternetGateway" },
+        "Export" : {
+          "Name" : "TodayIgwId"
+        }
+      }            
+    }    
+}

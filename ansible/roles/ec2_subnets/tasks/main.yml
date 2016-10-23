@@ -1,0 +1,33 @@
+---
+
+#  Start of lookups
+# - name: Get vpc facts for the local VPC 
+#   ec2_vpc_net_facts:
+#     region: ap-southeast-2
+#     profile: home
+#     filters:
+#       "tag:Name": ansible-vpc
+#   register: vpc_facts
+
+# - name: set a local fact for the vpc id
+#   set_fact:
+#     vpc_id: "{{ vpc_facts.vpcs | map(attribute='id') | join }}"
+
+#  End of lookups
+
+- name:  Create the public subnet for the VPC
+  ec2_vpc_subnet:
+    region:   "{{ region }}"
+    profile:  "{{ aws_account_name }}"
+    state: present
+    vpc_id:   "{{ vpc_id }}"
+    cidr:   10.5.10.0/24
+    az:     ap-southeast-2a
+    resource_tags: 
+      Name: ansible-public-subnet
+      Role: public
+  register: public   
+
+- name: set a local fact for the subnet id
+  set_fact:
+    subnet_id: "{{ public.subnet.id }}"    

@@ -1,0 +1,33 @@
+---
+- name: Running play to create the VPC and IGW
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/variable_files/all_vars.yml"
+  tags:
+    - vpc
+  roles:
+    - { role: ec2_vpc }
+
+- name: Running play to create the VPC Subnets
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/variable_files/all_vars.yml"  
+  tags:
+    - subnets
+  roles:
+    - { role: ec2_subnets }    
+
+- name: Running play to create the VPC Route Tables
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/variable_files/all_vars.yml"
+  tags:
+    - routes
+  roles:
+    - { role: ec2_vpc_route_table }    

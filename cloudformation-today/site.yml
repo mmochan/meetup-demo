@@ -1,0 +1,47 @@
+---
+- name: Running play to create the full stack
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/variable_files/all_vars.yml"
+  tags:
+    - full-stack
+  roles:
+    - { role: stack }
+
+- name: Running play to create the VPC
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/variable_files/all_vars.yml"
+  tags:
+    - create
+    - vpc
+  roles:
+    - { role: cfn_vpc }    
+
+- name: Running play to create the VPC Subnets
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/variable_files/all_vars.yml"  
+  tags:
+    - create
+    - subnets
+  roles:
+    - { role: cfn_subnets }    
+
+- name: Running play to create the VPC Route Tables
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/variable_files/all_vars.yml"
+  tags:
+    - create
+    - routes
+  roles:
+    - { role: cfn_route_tables }    

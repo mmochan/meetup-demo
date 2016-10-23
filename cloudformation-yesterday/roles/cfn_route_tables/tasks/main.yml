@@ -1,0 +1,69 @@
+---
+
+- name: Find our public subnets
+  ec2_vpc_subnet_facts:
+    region:   "{{ region }}"
+    profile:  "{{ aws_account_name }}"
+    filters:
+      "tag:Name": cfn-public-subnet-yesterday
+  register: public
+
+- name: lookup igw facts
+  ec2_vpc_igw_facts:
+    region:  "{{ region }}"
+    profile: "{{ aws_account_name }}"
+    filters:
+      "tag:Name": cfn-igw-yesterday
+  register: igw_facts        
+
+- name: set some local facts for vpc subnet and igw
+  set_fact:
+    subnet_id:  "{{ public.subnets | map(attribute='id') | join }}"
+    igw_id:     "{{ igw_facts.internet_gateways | map(attribute='InternetGatewayId') | join }}"
+
+- debug: msg="{{subnet_id}}"
+
+- name: Create temporary directory to hold template files
+  command: mktemp -d
+  register: cf_temp_dir
+
+- debug: msg="{{cf_temp_dir.stdout}}"  
+
+- name: Generate cloudformation template with real values
+  template: 
+    src: "templates/route_tables.json"
+    dest: "{{cf_temp_dir.stdout}}/route_tables.json"   
+
+- name: Upload CloudFormation template to S3
+  s3:
+    profile: "{{aws_account_name}}"
+    region: "{{region}}"
+    bucket: meetup-ansible-deployment
+    object: routes/route_tables.json
+    src:  "{{cf_temp_dir.stdout}}/route_tables.json"
+    mode: put    
+
+- name: Launch CloudFormation
+  cloudformation:
+    stack_name: cfn-route-tables-stack-yesterday
+    state: "present"
+    region: "{{region}}"
+    template_url: "https://s3-ap-southeast-2.amazonaws.com/meetup-ansible-deployment/routes/route_tables.json"
+    template_format: json
+  register: cfn_output
+
+
+- debug: msg="{{cfn_output}}"
+
+- name: Delete CloudFormation template from S3
+  s3:
+    bucket: meetup-ansible-deployment
+    object: routes/route_tables.json
+    mode: delobj
+    region: "{{region}}"
+
+- name: Remove temporary directory
+  file: 
+    path: "{{cf_temp_dir.stdout}}"
+    state: absent
+...
