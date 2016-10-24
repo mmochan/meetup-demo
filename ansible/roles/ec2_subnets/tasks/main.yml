@@ -1,17 +1,17 @@
 ---
 
 #  Start of lookups
-# - name: Get vpc facts for the local VPC 
-#   ec2_vpc_net_facts:
-#     region: ap-southeast-2
-#     profile: home
-#     filters:
-#       "tag:Name": ansible-vpc
-#   register: vpc_facts
+- name: Get vpc facts for the local VPC 
+  ec2_vpc_net_facts:
+    region: ap-southeast-2
+    profile: home
+    filters:
+      "tag:Name": ansible-vpc
+  register: vpc_facts
 
-# - name: set a local fact for the vpc id
-#   set_fact:
-#     vpc_id: "{{ vpc_facts.vpcs | map(attribute='id') | join }}"
+- name: set a local fact for the vpc id
+  set_fact:
+    vpc_id: "{{ vpc_facts.vpcs | map(attribute='id') | join }}"
 
 #  End of lookups
 

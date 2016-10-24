@@ -1,27 +1,27 @@
 ---
 # Start of lookups
 
-# - name: Find our public subnets
-#   ec2_vpc_subnet_facts:
-#     region:   "{{ region }}"
-#     profile:  "{{ aws_account_name }}"
-#     filters:
-#       "tag:Name": ansible-public-subnet
-#   register: public
+- name: Find our public subnets
+  ec2_vpc_subnet_facts:
+    region:   "{{ region }}"
+    profile:  "{{ aws_account_name }}"
+    filters:
+      "tag:Name": ansible-public-subnet
+  register: public
 
-# - name: lookup igw facts
-#   ec2_vpc_igw_facts:
-#     region:  "{{ region }}"
-#     profile: "{{ aws_account_name }}"
-#     filters:
-#       "tag:Name": ansible-igw
-#   register: igw_facts        
+- name: lookup igw facts
+  ec2_vpc_igw_facts:
+    region:  "{{ region }}"
+    profile: "{{ aws_account_name }}"
+    filters:
+      "tag:Name": ansible-igw
+  register: igw_facts        
 
-# - name: set some local facts for vpc subnet and igw
-#   set_fact:
-#     subnet_id:  "{{ public.subnets | map(attribute='id') | list }}"
-#     vpc_id:     "{{ public.subnets | map(attribute='vpc_id') | join }}"
-#     igw_id:     "{{ igw_facts.internet_gateways | map(attribute='InternetGatewayId') | join }}"
+- name: set some local facts for vpc subnet and igw
+  set_fact:
+    subnet_id:  "{{ public.subnets | map(attribute='id') | list }}"
+    vpc_id:     "{{ public.subnets | map(attribute='vpc_id') | join }}"
+    igw_id:     "{{ igw_facts.internet_gateways | map(attribute='InternetGatewayId') | join }}"
 
 #  End of lookups
   
