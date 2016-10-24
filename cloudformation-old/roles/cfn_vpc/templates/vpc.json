@@ -1,0 +1,43 @@
+
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Meetup cloudformation example",
+    "Metadata": {
+
+    },
+    "Parameters": { 
+      
+    },
+    "Mappings": {
+      
+    },
+    "Conditions": {
+
+    },
+
+    "Resources": {
+        "CfnVpc": {
+          "Type": "AWS::EC2::VPC",
+          "Properties": { 
+            "CidrBlock": "10.2.0.0/16" ,
+            "Tags": [ { "Key": "Name", "Value": "cfn-vpc-yesterday" } ]
+          }
+        },
+        "MeetUpInternetGateway": {
+          "DependsOn" : "CfnVpc",
+          "Type": "AWS::EC2::InternetGateway",
+          "Properties": {
+            "Tags": [ { "Key": "Name", "Value": "cfn-igw-yesterday" } ]
+          }
+        },
+
+        "MeetupAttachGateway": {
+          "DependsOn" : "MeetUpInternetGateway",
+          "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+            "VpcId": { "Ref": "CfnVpc" },
+            "InternetGatewayId": { "Ref": "MeetUpInternetGateway" }
+          }
+        }
+    }     
+}
