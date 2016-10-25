@@ -5,7 +5,7 @@
     region:   "{{ region }}"
     profile:  "{{ aws_account_name }}"
     filters:
-      "tag:Name": cfn-public-subnet-yesterday
+      "tag:Name": cfn-public-subnet-old
   register: public
 
 - name: lookup igw facts
@@ -13,7 +13,7 @@
     region:  "{{ region }}"
     profile: "{{ aws_account_name }}"
     filters:
-      "tag:Name": cfn-igw-yesterday
+      "tag:Name": cfn-igw-old
   register: igw_facts        
 
 

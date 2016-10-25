@@ -21,7 +21,7 @@
             "Type": "AWS::EC2::RouteTable",
             "Properties": {
               "VpcId": { "Fn::ImportValue" : "TodayVpcId" } ,
-              "Tags": [{ "Key": "Name", "Value": "cfn-public-RT" } ]
+              "Tags": [{ "Key": "Name", "Value": "cfn-public-RT-new" } ]
             }
           },
 

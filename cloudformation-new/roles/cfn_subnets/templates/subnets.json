@@ -22,7 +22,7 @@
           "AvailabilityZone": "ap-southeast-2a",
           "VpcId": { "Fn::ImportValue" : "TodayVpcId" } ,
           "CidrBlock": "10.4.10.0/24",
-          "Tags": [ { "Key": "Name", "Value": "cfn-public-subnet-today" } ]
+          "Tags": [ { "Key": "Name", "Value": "cfn-public-subnet-new" } ]
         }
       }
     },

@@ -20,14 +20,14 @@
           "Type": "AWS::EC2::VPC",
           "Properties": { 
             "CidrBlock": "10.4.0.0/16" ,
-            "Tags": [ { "Key": "Name", "Value": "cfn-vpc-today" } ]
+            "Tags": [ { "Key": "Name", "Value": "cfn-vpc-new" } ]
           }
         },
         "MeetUpInternetGateway": {
           "DependsOn" : "CfnVpc",
           "Type": "AWS::EC2::InternetGateway",
           "Properties": {
-            "Tags": [ { "Key": "Name", "Value": "cfn-igw-today" } ]
+            "Tags": [ { "Key": "Name", "Value": "cfn-igw-new" } ]
           }
         },
 

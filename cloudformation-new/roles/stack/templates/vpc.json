@@ -20,14 +20,14 @@
           "Type": "AWS::EC2::VPC",
           "Properties": { 
             "CidrBlock": "10.3.0.0/16" ,
-            "Tags": [ { "Key": "Name", "Value": "cfn-vpc-today-full-stack" } ]
+            "Tags": [ { "Key": "Name", "Value": "cfn-vpc-new-full-stack" } ]
           }
         },
         "MeetUpInternetGateway": {
           "DependsOn" : "CfnVpc",
           "Type": "AWS::EC2::InternetGateway",
           "Properties": {
-            "Tags": [ { "Key": "Name", "Value": "cfn-igw-today-full-stack" } ]
+            "Tags": [ { "Key": "Name", "Value": "cfn-igw-new-full-stack" } ]
           }
         },
 
@@ -47,7 +47,7 @@
             "AvailabilityZone": "ap-southeast-2a",
             "VpcId": { "Ref": "CfnVpc" },
             "CidrBlock": "10.3.10.0/24",
-            "Tags": [ { "Key": "Name", "Value": "cfn-public-subnet-today-full-stack" } ]
+            "Tags": [ { "Key": "Name", "Value": "cfn-public-subnet-new-full-stack" } ]
           }
         },
 
@@ -56,7 +56,7 @@
             "Type": "AWS::EC2::RouteTable",
             "Properties": {
               "VpcId": { "Ref": "CfnVpc" },
-              "Tags": [{ "Key": "Name", "Value": "cfn-public-RT-today-full-stack" } ]
+              "Tags": [{ "Key": "Name", "Value": "cfn-public-RT-new-full-stack" } ]
             }
           },
 
